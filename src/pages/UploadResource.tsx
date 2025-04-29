@@ -19,6 +19,8 @@ import { getAllCategories, getAllTags } from "@/data/resources";
 const UploadResource = () => {
   const [isUploading, setIsUploading] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [category, setCategory] = useState("");
+  const [tags, setTags] = useState("");
   const navigate = useNavigate();
   const { toast } = useToast();
   
@@ -80,7 +82,7 @@ const UploadResource = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="grid gap-2">
                 <Label htmlFor="category">Category *</Label>
-                <Select required>
+                <Select value={category} onValueChange={setCategory} required>
                   <SelectTrigger>
                     <SelectValue placeholder="Select category" />
                   </SelectTrigger>
@@ -96,7 +98,7 @@ const UploadResource = () => {
 
               <div className="grid gap-2">
                 <Label htmlFor="tags">Tags (select multiple)</Label>
-                <Select>
+                <Select value={tags} onValueChange={setTags}>
                   <SelectTrigger>
                     <SelectValue placeholder="Select tags" />
                   </SelectTrigger>

@@ -102,7 +102,7 @@ export function ResourceFilter({ onFilterChange }: ResourceFilterProps) {
               <SelectValue placeholder="Category" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">All Categories</SelectItem>
+              <SelectItem key="all-categories" value="all">All Categories</SelectItem>
               {allCategories.map((cat) => (
                 <SelectItem key={cat} value={cat}>
                   {cat}
@@ -116,7 +116,7 @@ export function ResourceFilter({ onFilterChange }: ResourceFilterProps) {
               <SelectValue placeholder="File Type" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">All Types</SelectItem>
+              <SelectItem key="all-types" value="all">All Types</SelectItem>
               {fileTypes.map((type) => (
                 <SelectItem key={type} value={type}>
                   {type}
