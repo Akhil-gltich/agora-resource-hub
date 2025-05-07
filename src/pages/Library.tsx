@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { resources } from "@/data/resources";
 import { ResourceGrid } from "@/components/resources/ResourceGrid";
 import {
@@ -16,18 +16,38 @@ import {
   Download,
   Calendar,
   User,
+  Info,
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 const Library = () => {
   const [view, setView] = useState<"grid" | "table">("grid");
+  const [showNewUploadAlert, setShowNewUploadAlert] = useState(false);
+  const location = useLocation();
+  
+  useEffect(() => {
+    // Check if we just came from the upload page
+    const justUploaded = location.state?.justUploaded;
+    if (justUploaded) {
+      setShowNewUploadAlert(true);
+      // Hide the alert after 10 seconds
+      const timer = setTimeout(() => setShowNewUploadAlert(false), 10000);
+      return () => clearTimeout(timer);
+    }
+  }, [location]);
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString();
   };
+  
+  // Find the most recent resource (for highlighting)
+  const mostRecentResource = [...resources].sort((a, b) => 
+    new Date(b.dateUploaded).getTime() - new Date(a.dateUploaded).getTime()
+  )[0];
 
   return (
     <div className="space-y-8">
@@ -37,6 +57,15 @@ const Library = () => {
           Browse all available academic resources in our library
         </p>
       </div>
+
+      {showNewUploadAlert && (
+        <Alert className="border-green-500 bg-green-50">
+          <Info className="h-4 w-4 text-green-500" />
+          <AlertDescription>
+            Your file was uploaded successfully! You can find it at the top of the list.
+          </AlertDescription>
+        </Alert>
+      )}
 
       <Card>
         <CardContent className="pt-6">
@@ -80,7 +109,7 @@ const Library = () => {
                   </TableHeader>
                   <TableBody>
                     {resources.map((resource) => (
-                      <TableRow key={resource.id}>
+                      <TableRow key={resource.id} className={resource.id === mostRecentResource?.id ? "bg-blue-50" : ""}>
                         <TableCell>
                           <div className="flex items-center gap-2">
                             <FileText className="h-4 w-4 text-muted-foreground" />
@@ -90,6 +119,9 @@ const Library = () => {
                             >
                               {resource.title}
                             </Link>
+                            {resource.id === mostRecentResource?.id && (
+                              <Badge className="ml-2 bg-blue-100 text-blue-800 hover:bg-blue-200">New</Badge>
+                            )}
                           </div>
                         </TableCell>
                         <TableCell>

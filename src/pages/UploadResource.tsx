@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -14,11 +13,13 @@ import {
 import { Label } from "@/components/ui/label";
 import { Upload, FileText } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { getAllCategories, getAllTags } from "@/data/resources";
+import { getAllCategories, getAllTags, resources } from "@/data/resources";
 
 const UploadResource = () => {
   const [isUploading, setIsUploading] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
   const [tags, setTags] = useState("");
   const navigate = useNavigate();
@@ -35,16 +36,46 @@ const UploadResource = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!selectedFile || !title || !description || !category) {
+      toast({
+        title: "Missing information",
+        description: "Please fill in all required fields and select a file.",
+        variant: "destructive"
+      });
+      return;
+    }
+    
     setIsUploading(true);
+
+    // Create a new resource object
+    const newResource = {
+      id: `temp-${Date.now()}`, // Generate a temporary ID
+      title: title,
+      description: description,
+      category: category as any, // Type assertion to match the Resource type
+      fileType: selectedFile.name.split('.').pop()?.toUpperCase() as any || 'Other',
+      fileSize: `${(selectedFile.size / 1024 / 1024).toFixed(2)} MB`,
+      dateUploaded: new Date().toISOString().split('T')[0],
+      uploadedBy: "You",
+      downloads: 0,
+      tags: tags ? [tags] : [],
+      dateAdded: new Date(),
+      views: 0,
+      likes: 0,
+    };
 
     // Simulate upload delay
     setTimeout(() => {
+      // Add the new resource to the beginning of the resources array
+      resources.unshift(newResource);
+      
       setIsUploading(false);
       toast({
         title: "Resource uploaded successfully!",
         description: "Your resource is now available in the library.",
       });
-      navigate("/resources");
+      // Navigate to the library with state indicating we just uploaded
+      navigate("/library", { state: { justUploaded: true } });
     }, 1500);
   };
 
@@ -65,6 +96,8 @@ const UploadResource = () => {
               <Input
                 id="title"
                 placeholder="Enter resource title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
                 required
               />
             </div>
@@ -75,6 +108,8 @@ const UploadResource = () => {
                 id="description"
                 placeholder="Provide a brief description of the resource"
                 className="min-h-32"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
                 required
               />
             </div>
@@ -97,10 +132,10 @@ const UploadResource = () => {
               </div>
 
               <div className="grid gap-2">
-                <Label htmlFor="tags">Tags (select multiple)</Label>
+                <Label htmlFor="tags">Tags (select one)</Label>
                 <Select value={tags} onValueChange={setTags}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select tags" />
+                    <SelectValue placeholder="Select a tag" />
                   </SelectTrigger>
                   <SelectContent>
                     {popularTags.map((tag) => (
@@ -110,9 +145,6 @@ const UploadResource = () => {
                     ))}
                   </SelectContent>
                 </Select>
-                <p className="text-xs text-muted-foreground mt-1">
-                  You can select multiple tags or add new ones
-                </p>
               </div>
             </div>
           </div>
