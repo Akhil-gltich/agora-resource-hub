@@ -181,3 +181,10 @@ export const getAllCategories = (): string[] => {
 export const getFeaturedResources = (): Resource[] => {
   return resources.filter(resource => resource.featured);
 };
+
+// New function to get most recent resources
+export const getRecentResources = (limit: number = 3): Resource[] => {
+  return [...resources]
+    .sort((a, b) => new Date(b.dateUploaded).getTime() - new Date(a.dateUploaded).getTime())
+    .slice(0, limit);
+};
