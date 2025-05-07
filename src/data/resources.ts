@@ -1,3 +1,4 @@
+
 export interface Resource {
   id: string;
   title: string;
@@ -40,7 +41,10 @@ export const resources: Resource[] = [
     uploadedBy: 'Prof. Johnson',
     downloads: 1250,
     tags: ['Computer Science', 'Programming', 'Algorithms'],
-    featured: true
+    featured: true,
+    dateAdded: new Date('2025-04-15'),
+    views: 1560,
+    likes: 120
   },
   {
     id: '2',
@@ -53,7 +57,10 @@ export const resources: Resource[] = [
     uploadedBy: 'Dr. Chen',
     downloads: 875,
     tags: ['Chemistry', 'Lab', 'Organic Chemistry'],
-    featured: true
+    featured: true,
+    dateAdded: new Date('2025-04-10'),
+    views: 980,
+    likes: 95
   },
   {
     id: '3',
@@ -66,7 +73,10 @@ export const resources: Resource[] = [
     uploadedBy: 'Dr. Williams',
     downloads: 620,
     tags: ['Literature', 'Theory', 'English'],
-    featured: true
+    featured: true,
+    dateAdded: new Date('2025-04-08'),
+    views: 750,
+    likes: 68
   },
   {
     id: '4',
@@ -78,7 +88,10 @@ export const resources: Resource[] = [
     dateUploaded: '2025-04-05',
     uploadedBy: 'Prof. Garcia',
     downloads: 1450,
-    tags: ['Mathematics', 'Calculus', 'Problem Set']
+    tags: ['Mathematics', 'Calculus', 'Problem Set'],
+    dateAdded: new Date('2025-04-05'),
+    views: 1820,
+    likes: 145
   },
   {
     id: '5',
@@ -90,7 +103,10 @@ export const resources: Resource[] = [
     dateUploaded: '2025-04-03',
     uploadedBy: 'Dr. Thompson',
     downloads: 780,
-    tags: ['Psychology', 'Research', 'Statistics']
+    tags: ['Psychology', 'Research', 'Statistics'],
+    dateAdded: new Date('2025-04-03'),
+    views: 920,
+    likes: 87
   },
   {
     id: '6',
@@ -102,7 +118,10 @@ export const resources: Resource[] = [
     dateUploaded: '2025-03-28',
     uploadedBy: 'Prof. Anderson',
     downloads: 560,
-    tags: ['Physics', 'Quantum', 'Science']
+    tags: ['Physics', 'Quantum', 'Science'],
+    dateAdded: new Date('2025-03-28'),
+    views: 680,
+    likes: 56
   },
   {
     id: '7',
@@ -114,7 +133,10 @@ export const resources: Resource[] = [
     dateUploaded: '2025-03-25',
     uploadedBy: 'Dr. Martinez',
     downloads: 920,
-    tags: ['History', 'American', 'Civil War']
+    tags: ['History', 'American', 'Civil War'],
+    dateAdded: new Date('2025-03-25'),
+    views: 1050,
+    likes: 92
   },
   {
     id: '8',
@@ -126,7 +148,10 @@ export const resources: Resource[] = [
     dateUploaded: '2025-03-20',
     uploadedBy: 'Prof. Kim',
     downloads: 450,
-    tags: ['Economics', 'Sustainability', 'Development']
+    tags: ['Economics', 'Sustainability', 'Development'],
+    dateAdded: new Date('2025-03-20'),
+    views: 580,
+    likes: 45
   },
   {
     id: '9',
@@ -138,7 +163,10 @@ export const resources: Resource[] = [
     dateUploaded: '2025-03-18',
     uploadedBy: 'Dr. Garcia',
     downloads: 1100,
-    tags: ['Programming', 'Python', 'Computer Science']
+    tags: ['Programming', 'Python', 'Computer Science'],
+    dateAdded: new Date('2025-03-18'),
+    views: 1350,
+    likes: 112
   },
   {
     id: '10',
@@ -150,7 +178,10 @@ export const resources: Resource[] = [
     dateUploaded: '2025-03-15',
     uploadedBy: 'Prof. Smith',
     downloads: 850,
-    tags: ['Sociology', 'Social Science', 'Theory']
+    tags: ['Sociology', 'Social Science', 'Theory'],
+    dateAdded: new Date('2025-03-15'),
+    views: 930,
+    likes: 78
   },
   {
     id: '11',
@@ -162,7 +193,10 @@ export const resources: Resource[] = [
     dateUploaded: '2025-03-12',
     uploadedBy: 'Dr. Patel',
     downloads: 730,
-    tags: ['Biology', 'Molecular', 'Laboratory']
+    tags: ['Biology', 'Molecular', 'Laboratory'],
+    dateAdded: new Date('2025-03-12'),
+    views: 860,
+    likes: 71
   },
   {
     id: '12',
@@ -174,7 +208,10 @@ export const resources: Resource[] = [
     dateUploaded: '2025-03-10',
     uploadedBy: 'Prof. Lee',
     downloads: 980,
-    tags: ['AI', 'Computer Science', 'Machine Learning']
+    tags: ['AI', 'Computer Science', 'Machine Learning'],
+    dateAdded: new Date('2025-03-10'),
+    views: 1180,
+    likes: 105
   }
 ];
 

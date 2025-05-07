@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { ResourceFilter } from "@/components/resources/ResourceFilter";
 import { ResourceGrid } from "@/components/resources/ResourceGrid";
+import { RecentUploadsBanner } from "@/components/resources/RecentUploadsBanner";
 import { resources, Resource } from "@/data/resources";
 
 const Resources = () => {
@@ -76,6 +77,8 @@ const Resources = () => {
         </p>
       </div>
 
+      <RecentUploadsBanner />
+
       <ResourceFilter onFilterChange={filterResources} />
 
       <div>
@@ -89,6 +92,6 @@ const Resources = () => {
       </div>
     </div>
   );
-};
+}
 
 export default Resources;
