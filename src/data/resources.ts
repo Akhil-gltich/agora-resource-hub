@@ -1,4 +1,3 @@
-
 export interface Resource {
   id: string;
   title: string;
@@ -12,6 +11,21 @@ export interface Resource {
   tags: string[];
   image?: string;
   featured?: boolean;
+  
+  // Adding missing properties used in ResourceDetail.tsx
+  dateAdded: Date;
+  previewImage?: string;
+  comments?: {
+    author: string;
+    date: Date;
+    text: string;
+  }[];
+  views: number;
+  likes: number;
+  relatedResources?: {
+    id: string;
+    title: string;
+  }[];
 }
 
 export const resources: Resource[] = [
@@ -165,7 +179,47 @@ export const resources: Resource[] = [
 ];
 
 export const getResourceById = (id: string): Resource | undefined => {
-  return resources.find(resource => resource.id === id);
+  const resource = resources.find(resource => resource.id === id);
+  
+  // Add default values for the new properties if they don't exist
+  if (resource) {
+    // Convert dateUploaded to dateAdded if it doesn't exist
+    if (!resource.dateAdded) {
+      resource.dateAdded = new Date(resource.dateUploaded);
+    }
+    
+    // Set default values for other properties
+    if (resource.views === undefined) resource.views = Math.floor(Math.random() * 1000) + 100;
+    if (resource.likes === undefined) resource.likes = Math.floor(Math.random() * 100) + 10;
+    
+    // Add sample comments if none exist
+    if (!resource.comments) {
+      resource.comments = [
+        {
+          author: "Student User",
+          date: new Date(Date.now() - 86400000 * 2), // 2 days ago
+          text: "This resource was very helpful for my project. Thank you for sharing!"
+        },
+        {
+          author: "Faculty Member",
+          date: new Date(Date.now() - 86400000), // 1 day ago
+          text: "Excellent material. I'll be recommending this to my students."
+        }
+      ];
+    }
+    
+    // Add related resources if none exist
+    if (!resource.relatedResources) {
+      const related = resources
+        .filter(r => r.id !== resource.id && r.category === resource.category)
+        .slice(0, 3)
+        .map(r => ({ id: r.id, title: r.title }));
+      
+      resource.relatedResources = related;
+    }
+  }
+  
+  return resource;
 };
 
 export const getAllTags = (): string[] => {
