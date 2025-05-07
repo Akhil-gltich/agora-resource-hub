@@ -27,6 +27,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 const Library = () => {
   const [view, setView] = useState<"grid" | "table">("grid");
   const [showNewUploadAlert, setShowNewUploadAlert] = useState(false);
+  const [activeTab, setActiveTab] = useState<"all" | "myUploads">("all");
   const location = useLocation();
   
   useEffect(() => {
@@ -34,6 +35,7 @@ const Library = () => {
     const justUploaded = location.state?.justUploaded;
     if (justUploaded) {
       setShowNewUploadAlert(true);
+      setActiveTab("myUploads"); // Switch to my uploads tab when user uploads a file
       // Hide the alert after 10 seconds
       const timer = setTimeout(() => setShowNewUploadAlert(false), 10000);
       return () => clearTimeout(timer);
@@ -49,6 +51,12 @@ const Library = () => {
     new Date(b.dateUploaded).getTime() - new Date(a.dateUploaded).getTime()
   )[0];
 
+  // Filter resources for "My Uploads" (resources uploaded by "You")
+  const myUploads = resources.filter(resource => resource.uploadedBy === "You");
+  
+  // Get the resources to display based on the active tab
+  const displayedResources = activeTab === "myUploads" ? myUploads : resources;
+
   return (
     <div className="space-y-8">
       <div>
@@ -62,7 +70,7 @@ const Library = () => {
         <Alert className="border-green-500 bg-green-50">
           <Info className="h-4 w-4 text-green-500" />
           <AlertDescription>
-            Your file was uploaded successfully! You can find it at the top of the list.
+            Your file was uploaded successfully! You can find it in the "My Uploads" section.
           </AlertDescription>
         </Alert>
       )}
@@ -71,9 +79,16 @@ const Library = () => {
         <CardContent className="pt-6">
           <div className="flex justify-between items-center mb-6">
             <div>
-              <h2 className="text-xl font-semibold">
-                {resources.length} Total Resources
-              </h2>
+              <Tabs 
+                value={activeTab} 
+                onValueChange={(v) => setActiveTab(v as "all" | "myUploads")}
+                className="mr-4"
+              >
+                <TabsList>
+                  <TabsTrigger value="all">All Resources ({resources.length})</TabsTrigger>
+                  <TabsTrigger value="myUploads">My Uploads ({myUploads.length})</TabsTrigger>
+                </TabsList>
+              </Tabs>
             </div>
             <div className="flex items-center gap-4">
               <Tabs
@@ -91,7 +106,10 @@ const Library = () => {
 
           <Tabs value={view}>
             <TabsContent value="grid">
-              <ResourceGrid resources={resources} />
+              <ResourceGrid 
+                resources={displayedResources}
+                emptyMessage={activeTab === "myUploads" ? "You haven't uploaded any resources yet" : "No resources found"}
+              />
             </TabsContent>
             <TabsContent value="table">
               <div className="border rounded-md">
@@ -108,52 +126,60 @@ const Library = () => {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {resources.map((resource) => (
-                      <TableRow key={resource.id} className={resource.id === mostRecentResource?.id ? "bg-blue-50" : ""}>
-                        <TableCell>
-                          <div className="flex items-center gap-2">
-                            <FileText className="h-4 w-4 text-muted-foreground" />
-                            <Link
-                              to={`/resources/${resource.id}`}
-                              className="hover:underline font-medium"
-                            >
-                              {resource.title}
-                            </Link>
-                            {resource.id === mostRecentResource?.id && (
-                              <Badge className="ml-2 bg-blue-100 text-blue-800 hover:bg-blue-200">New</Badge>
-                            )}
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <Badge variant="outline">{resource.category}</Badge>
-                        </TableCell>
-                        <TableCell>{resource.fileType}</TableCell>
-                        <TableCell className="flex items-center gap-1">
-                          <Calendar className="h-3 w-3" />
-                          {formatDate(resource.dateUploaded)}
-                        </TableCell>
-                        <TableCell className="flex items-center gap-1">
-                          <User className="h-3 w-3" />
-                          {resource.uploadedBy}
-                        </TableCell>
-                        <TableCell className="flex items-center gap-1">
-                          <Download className="h-3 w-3" />
-                          {resource.downloads}
-                        </TableCell>
-                        <TableCell className="text-right">
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            asChild
-                            className="h-7"
-                          >
-                            <Link to={`/resources/${resource.id}`}>
-                              View
-                            </Link>
-                          </Button>
+                    {displayedResources.length === 0 ? (
+                      <TableRow>
+                        <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
+                          {activeTab === "myUploads" ? "You haven't uploaded any resources yet" : "No resources found"}
                         </TableCell>
                       </TableRow>
-                    ))}
+                    ) : (
+                      displayedResources.map((resource) => (
+                        <TableRow key={resource.id} className={resource.id === mostRecentResource?.id ? "bg-blue-50" : ""}>
+                          <TableCell>
+                            <div className="flex items-center gap-2">
+                              <FileText className="h-4 w-4 text-muted-foreground" />
+                              <Link
+                                to={`/resources/${resource.id}`}
+                                className="hover:underline font-medium"
+                              >
+                                {resource.title}
+                              </Link>
+                              {resource.id === mostRecentResource?.id && (
+                                <Badge className="ml-2 bg-blue-100 text-blue-800 hover:bg-blue-200">New</Badge>
+                              )}
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <Badge variant="outline">{resource.category}</Badge>
+                          </TableCell>
+                          <TableCell>{resource.fileType}</TableCell>
+                          <TableCell className="flex items-center gap-1">
+                            <Calendar className="h-3 w-3" />
+                            {formatDate(resource.dateUploaded)}
+                          </TableCell>
+                          <TableCell className="flex items-center gap-1">
+                            <User className="h-3 w-3" />
+                            {resource.uploadedBy}
+                          </TableCell>
+                          <TableCell className="flex items-center gap-1">
+                            <Download className="h-3 w-3" />
+                            {resource.downloads}
+                          </TableCell>
+                          <TableCell className="text-right">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              asChild
+                              className="h-7"
+                            >
+                              <Link to={`/resources/${resource.id}`}>
+                                View
+                              </Link>
+                            </Button>
+                          </TableCell>
+                        </TableRow>
+                      ))
+                    )}
                   </TableBody>
                 </Table>
               </div>
