@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import Resources from "./pages/Resources";
 import ResourceDetail from "./pages/ResourceDetail";
 import UploadResource from "./pages/UploadResource";
+import Library from "./pages/Library";
 import NotFound from "./pages/NotFound";
 import { AppLayout } from "./components/layout/AppLayout";
 
@@ -25,6 +26,7 @@ const App = () => (
             <Route path="resources" element={<Resources />} />
             <Route path="resources/:id" element={<ResourceDetail />} />
             <Route path="upload" element={<UploadResource />} />
+            <Route path="library" element={<Library />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>

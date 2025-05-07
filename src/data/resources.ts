@@ -13,7 +13,7 @@ export interface Resource {
   image?: string;
   featured?: boolean;
   
-  // Adding missing properties used in ResourceDetail.tsx
+  // Additional properties for ResourceDetail
   dateAdded: Date;
   previewImage?: string;
   comments?: {
@@ -122,96 +122,6 @@ export const resources: Resource[] = [
     dateAdded: new Date('2025-03-28'),
     views: 680,
     likes: 56
-  },
-  {
-    id: '7',
-    title: 'American History: Civil War to Present',
-    description: 'A comprehensive textbook covering American history from the Civil War to contemporary events.',
-    category: 'Books',
-    fileType: 'PDF',
-    fileSize: '8.3 MB',
-    dateUploaded: '2025-03-25',
-    uploadedBy: 'Dr. Martinez',
-    downloads: 920,
-    tags: ['History', 'American', 'Civil War'],
-    dateAdded: new Date('2025-03-25'),
-    views: 1050,
-    likes: 92
-  },
-  {
-    id: '8',
-    title: 'Economics of Sustainable Development',
-    description: 'Research paper exploring the economic aspects of sustainable development practices.',
-    category: 'Research Papers',
-    fileType: 'PDF',
-    fileSize: '2.1 MB',
-    dateUploaded: '2025-03-20',
-    uploadedBy: 'Prof. Kim',
-    downloads: 450,
-    tags: ['Economics', 'Sustainability', 'Development'],
-    dateAdded: new Date('2025-03-20'),
-    views: 580,
-    likes: 45
-  },
-  {
-    id: '9',
-    title: 'Advanced Python Programming',
-    description: 'Techniques and best practices for advanced Python programming, including data structures and algorithms.',
-    category: 'Study Materials',
-    fileType: 'PDF',
-    fileSize: '3.5 MB',
-    dateUploaded: '2025-03-18',
-    uploadedBy: 'Dr. Garcia',
-    downloads: 1100,
-    tags: ['Programming', 'Python', 'Computer Science'],
-    dateAdded: new Date('2025-03-18'),
-    views: 1350,
-    likes: 112
-  },
-  {
-    id: '10',
-    title: 'Introduction to Sociology',
-    description: 'Foundational concepts and theories in sociology for undergraduate students.',
-    category: 'Books',
-    fileType: 'PDF',
-    fileSize: '4.2 MB',
-    dateUploaded: '2025-03-15',
-    uploadedBy: 'Prof. Smith',
-    downloads: 850,
-    tags: ['Sociology', 'Social Science', 'Theory'],
-    dateAdded: new Date('2025-03-15'),
-    views: 930,
-    likes: 78
-  },
-  {
-    id: '11',
-    title: 'Molecular Biology Techniques',
-    description: 'A laboratory manual for common molecular biology techniques and protocols.',
-    category: 'Study Materials',
-    fileType: 'PDF',
-    fileSize: '5.8 MB',
-    dateUploaded: '2025-03-12',
-    uploadedBy: 'Dr. Patel',
-    downloads: 730,
-    tags: ['Biology', 'Molecular', 'Laboratory'],
-    dateAdded: new Date('2025-03-12'),
-    views: 860,
-    likes: 71
-  },
-  {
-    id: '12',
-    title: 'Artificial Intelligence: Principles and Applications',
-    description: 'An overview of AI principles, algorithms, and real-world applications.',
-    category: 'Presentations',
-    fileType: 'PPT',
-    fileSize: '6.7 MB',
-    dateUploaded: '2025-03-10',
-    uploadedBy: 'Prof. Lee',
-    downloads: 980,
-    tags: ['AI', 'Computer Science', 'Machine Learning'],
-    dateAdded: new Date('2025-03-10'),
-    views: 1180,
-    likes: 105
   }
 ];
 
